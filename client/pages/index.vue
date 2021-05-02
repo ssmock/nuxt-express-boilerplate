@@ -1,67 +1,21 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        client
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-      <div>
-        <pre style="text-align: left; max-width: 400px;">{{remote}}</pre>
-      </div>
+      <Content />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Thing } from "../../domain/Thing";
-import { RemoteResource, RemoteResources } from "../types/RemoteResource"
+import Vue from "vue";
+import Content from "../components/Content.vue";
 
 export default Vue.extend({
+  components: { Content },
   data() {
-    const remote: RemoteResource<Thing> = RemoteResources.fresh<Thing>();
-
-    return {
-      remote
-    };
+    return {};
   },
-  created() {
-    this.fetchData();
-  },
-  methods: {
-    async fetchData() {
-      try {
-        this.remote = RemoteResources.startRequest(this.remote);
-
-        const data = await (this as any).$axios.$get("http://localhost:5000/thing/A") as Thing;
-
-        this.remote = RemoteResources.withData(this.remote, data);
-      }
-      catch(ex) {
-        this.remote = await RemoteResources.withUnknownError(this.remote, ex);
-      }
-    }
-  }
-})
+});
 </script>
 
 <style>
@@ -75,16 +29,8 @@ export default Vue.extend({
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
